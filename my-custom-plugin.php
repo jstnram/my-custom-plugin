@@ -13,17 +13,20 @@
  */
 
 // Your code starts here.
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 use MyCustomPlugin\Plugin;
 
-define('MCP_VERSION', '0.1.0');
-define('MCP_PATH', plugin_dir_path(__FILE__));
+define( 'MYCUSTOMPLUGIN_VERSION', '0.1.0' );
+define( 'MYCUSTOMPLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-add_action('plugins_loaded', function () {
-    Plugin::instance()->boot();
-});
+add_action(
+	'plugins_loaded',
+	function () {
+		Plugin::instance()->boot();
+	}
+);
