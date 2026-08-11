@@ -19,7 +19,7 @@ jobs:
       - name: WordPress Coding Standards
         run: vendor/bin/phpcs --standard=.phpcs.xml.dist .
 
-  test:
+test:
     runs-on: ubuntu-latest
     services:
       mysql:
