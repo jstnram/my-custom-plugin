@@ -50,3 +50,25 @@ jobs:
         run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3307 latest true
       - name: Run PHPUnit
         run: vendor/bin/phpunit
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - name: Install production dependencies only
+        run: composer install --no-dev --optimize-autoloader --no-progress --prefer-dist
+      - name: Build plugin zip
+        run: |
+          mkdir -p build/my-custom-plugin
+          rsync -av --exclude-from='.distignore' --exclude 'build' ./ build/my-custom-plugin/
+          cd build && zip -r my-custom-plugin.zip my-custom-plugin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-custom-plugin
+          path: build/my-custom-plugin.zip
+          retention-days: 30
